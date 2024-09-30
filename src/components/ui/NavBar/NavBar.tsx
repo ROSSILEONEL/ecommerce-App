@@ -1,14 +1,20 @@
 import logo from '../../../assets/logo.svg'
 import cart from '../../../assets/cart.svg'
 import styles from './NavBar.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CartModal } from '../CartModal/CartModal'
+import useCartContext from '../../../hooks/useCartContext'
+
 
 export default function NavBar() {
 
-const [showCartModal, setShowCartModal] = useState(false)
+const {state} = useCartContext()
 
-const handledShowCartModal = () => {
+useEffect(()=>{},[state])
+
+const [showCartModal, setShowCartModal] = useState<boolean>(false)
+
+const handledShowCartModal = ():void => {
   setShowCartModal(!showCartModal)
   console.log(showCartModal)
 }
@@ -23,7 +29,7 @@ const handledShowCartModal = () => {
 
         </div>
         <div className={styles.navbarCartContainer}>
-        <p className={styles.navbarCart}>2</p>
+        <p className={styles.navbarCart}>{state.cartItems.length===0 ? '' : state.cartItems.length}</p>
         <img src={cart} alt="carrito del ecommerce"   onClick={handledShowCartModal}/>
         </div>
         {showCartModal&& (<CartModal handledShowCartModal={handledShowCartModal} />)}

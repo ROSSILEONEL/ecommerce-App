@@ -7,5 +7,5 @@ interface CartContexType{
     dispatch: Dispatch<CartAction>
 }
 
-// export const CartContext = createContext({} as CartContexType)
-export const CartContext = createContext<CartContexType|undefined>(undefined)
+export const CartContext = createContext({} as CartContexType)
+// export const CartContext = createContext<CartContexType>({})

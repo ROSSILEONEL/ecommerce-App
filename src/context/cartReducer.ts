@@ -12,10 +12,11 @@ export const initialState:CartState = {
 
 export interface CartAction{
     type: "ADD_TO_CART" | "REMOVE_FROM_CART" | "INCREMENT" | "DECREMENT"
+    // type: string
     payload: CartProduct
 }
 
-export const TYPE = {
+export const TYPE :{[key:string]:string} = {
     ADD_TO_CART: "ADD_TO_CART",
     REMOVE_FROM_CART: "REMOVE_FROM_CART",
     INCREMENT: "INCREMENT",
@@ -52,7 +53,7 @@ export const cartReducer =(state:CartState,action:CartAction):CartState=>{
           
             const {id}= action.payload
             const existingItem = state.cartItems.find(item => item.id === action.payload.id);
-            if(existingItem.quantity >= 1){
+            if(existingItem && existingItem.quantity > 1){
                 return {
                     ...state,
                     cartItems: state.cartItems.map(item=> item.id === id ? {...item, quantity: item.quantity - 1} : item)
@@ -64,6 +65,7 @@ export const cartReducer =(state:CartState,action:CartAction):CartState=>{
                 }
             }
         }
+        
         default:{
            
    

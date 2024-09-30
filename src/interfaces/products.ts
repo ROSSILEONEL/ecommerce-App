@@ -22,6 +22,8 @@ export interface Release {
 export interface CartProduct  {
     id:number;
     name: string;
-    image: string
-    quantity: number
+    image: string;
+    quantity: number;
+    price: number;
+
   }

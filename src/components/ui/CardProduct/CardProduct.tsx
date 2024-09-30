@@ -1,9 +1,10 @@
-import { CartContext } from '../../../context/CartContext'
+
 import styles from './CardProduct.module.css'
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 import { TYPE } from '../../../context/cartReducer'
 import { Products } from '../../../interfaces'
 import { CartProduct } from '../../../interfaces/products'
+import useCartContext from '../../../hooks/useCartContext'
 
 
 interface Props {
@@ -15,18 +16,19 @@ interface Props {
 
 // --> :FC<Props>   funcional components
 export const CardProduct:FC<Props> = ({product}) => {
-  const {dispatch}= useContext(CartContext)
+  const { dispatch }= useCartContext()
 
 
   const item: CartProduct = {
     id: product.id,
   name: product.name,
 image: product.image,
-quantity: 1,
+price: product.price,
+quantity: 1
 }
 
-const addToCart = (item) =>{
-  dispatch({type: TYPE.ADD_TO_CART, payload: item})
+const addToCart = (item: CartProduct) =>{
+  dispatch({type: 'ADD_TO_CART', payload: item})
 }
 
 
