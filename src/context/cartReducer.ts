@@ -11,7 +11,7 @@ export const initialState:CartState = {
 }
 
 export interface CartAction{
-    type: "ADD_TO_CART" | "REMOVE_FROM_CART" | "INCREMENT" | "DECREMENT"
+    type: "ADD_TO_CART" | "REMOVE_FROM_CART" | "CLEAR_CART" | "DELETE_ITEM"
     // type: string
     payload: CartProduct
 }
@@ -19,8 +19,8 @@ export interface CartAction{
 export const TYPE :{[key:string]:string} = {
     ADD_TO_CART: "ADD_TO_CART",
     REMOVE_FROM_CART: "REMOVE_FROM_CART",
-    INCREMENT: "INCREMENT",
-    DECREMENT: "DECREMENT"
+   CLEAR_CART: "CLEAR_CART",
+   DELETE_ITEM: "DELETE_ITEM",
 }
 
 
@@ -37,6 +37,7 @@ export const cartReducer =(state:CartState,action:CartAction):CartState=>{
     
 
     if (existingItem) {
+
         return {
             ...state,
             cartItems: state.cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item)
@@ -65,7 +66,18 @@ export const cartReducer =(state:CartState,action:CartAction):CartState=>{
                 }
             }
         }
-        
+
+        case TYPE.CLEAR_CART:{
+            return initialState
+        }
+        case TYPE.DELETE_ITEM:{
+            const {id}= action.payload
+            return{
+                ...state,
+                cartItems: state.cartItems.filter(item=> item.id !== id)
+            }
+        }
+
         default:{
            
    

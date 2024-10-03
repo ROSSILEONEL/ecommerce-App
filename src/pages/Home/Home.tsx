@@ -4,6 +4,7 @@ import { CardProduct } from "../../components/ui/CardProduct/CardProduct.tsx"
 import styles from "./Home.module.css"
 import { getProducts } from "../../service/products.ts"
 import { Products } from "../../interfaces/products.ts"
+import { Toaster } from "sonner"
 
 export const Home = () => {
   
@@ -34,7 +35,9 @@ getProducts().then((data)=>{
   
   return (
     <div>
+      
       <Hero />
+      <Toaster position="bottom-right"  richColors />
       <div className={styles.container}>
 {loading && <div>Loading...</div>} 
 {error && <div>Error , something went wrong</div>}
@@ -42,6 +45,7 @@ getProducts().then((data)=>{
         <CardProduct key={product.id} product={product} />
       ))}
       </div>
+      
     </div>
   )
 }
