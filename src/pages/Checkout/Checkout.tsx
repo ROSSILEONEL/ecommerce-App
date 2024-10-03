@@ -1,6 +1,6 @@
 import { Table } from "../../components/ui/Table/Table"
 import styles from './Checkout.module.css'
-
+import { CardCredit } from "../../components/ui/CardCredit/CardCredit"
 export const Checkout = () => {
   return (
     <div className={styles.container}>
@@ -11,6 +11,7 @@ export const Checkout = () => {
       <Table  />
       </div>
 <div>
+  <CardCredit/>
   {/* form target */}
 </div>
       </div>
