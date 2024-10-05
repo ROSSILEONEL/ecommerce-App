@@ -2,16 +2,19 @@ import Cards from 'react-credit-cards-2'
 import 'react-credit-cards-2/dist/es/styles-compiled.css'
 import styles from './CardCredit.module.css'
 import { useState } from 'react'
+import {toast} from 'sonner'
+import  useCartContext  from '../../../hooks/useCartContext'
 export const CardCredit = () => {
 
-
-  interface CardData {
+const { dispatch } = useCartContext()
+interface CardData {
     number: string
     name: string
     expiry: string
     cvc: string
-    focus: string
+    focus: 'number' | 'name' | 'expiry' | 'cvc'| ''
   }
+
 const [cardData, setCardData] = useState<CardData>({
   number: '',
   name: '',
@@ -19,6 +22,8 @@ const [cardData, setCardData] = useState<CardData>({
   cvc: '',
   focus: ''
 })
+
+const { number, name, expiry, cvc, focus  } = cardData
 
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = e.target
@@ -30,32 +35,24 @@ const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
   setCardData({ ...cardData, focus: name })
 }
 
+
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault()
   // validar que los campos no esten vacios 
-  const { number, name, expiry, cvc } = cardData
+    if ([number, name, expiry, cvc].includes('')) {
+     toast.error('All fields are required')
+      return
+    }
 
-
-if ([number, name, expiry, cvc].includes('')) {
-  alert('Please fill in all fields')
-  return
-}
-
-  // if (!number || !name || !expiry || !cvc) {
-  //   alert('Please fill in all fields')
-  //   return
-  // }
-
-setCardData({
-  number: '',
-  name: '',
-  expiry: '',
-  cvc: '',
-  focus: ''
-})
-
-  console.log(cardData)
-}
+    setCardData({
+        number: '',
+        name: '',
+        expiry: '',
+        cvc: '',
+        focus: ''
+      })
+      dispatch({type:'CLEAR_CART'})
+  }
 
 
 
@@ -63,38 +60,62 @@ setCardData({
   return (
     <div className={styles.container}>
         <div>
-            {/* Cards */}
-<Cards number={'4242424242424242'} name={'John Doe'} expiry={'04/24'} cvc={'123'} />
+              <Cards number={number} name={name} expiry={expiry} cvc={cvc} focused={focus  } />
         </div>
-        <form action="">
 
+        <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formControl}>
                 <label htmlFor="number">Card Number</label>
-                <input type="text" name="number" id="number" />
+                <input
+                type="text"
+                name="number" 
+                id="number" 
+                value={number}
+                onChange={handleInputChange} 
+                onFocus={handleInputFocus} />
             </div>
             <div className={styles.formControl}>
                 <label htmlFor="name">Card Name</label>
-                <input type="text" name="name" id="name" />
+                <input 
+                type="text" 
+                name="name" 
+                id="name" 
+                value={name}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                />
             </div>
-
-
-            {/* grupo */}
 
 <div className={styles.formInputGrup}>
             <div className={styles.formControl}>
                 <label htmlFor="expiry">
                   Card Expiry
                 </label>
-                <input type="text" name="expiry" id="expiry" />
+                <input 
+                type="text" 
+                name="expiry" 
+                id="expiry"
+                value={expiry}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                />
             </div>
   <div  className={styles.formControl}>
 
                 <label htmlFor="name">
                   Card Cvc
                 </label>
-                <input type="text" name="cvc" id="cvc" />
+                <input 
+                type="text" 
+                name="cvc" 
+                id="cvc" 
+                value={cvc}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                />
   </div>
 </div>
+<button type='submit' className={styles.buyButton}>Buy Now </button>
         </form>
     </div>
   )

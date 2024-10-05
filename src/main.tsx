@@ -6,6 +6,7 @@ import './index.css'
 import { Home } from './pages/Home/Home.tsx'
 import { CartProvider } from './context/CartProvider.tsx'
 import { Checkout } from './pages/Checkout/Checkout.tsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 
 const router = createBrowserRouter([
@@ -23,11 +24,22 @@ const router = createBrowserRouter([
   }
 ])
 
+const queryClient = new QueryClient( {
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+
+})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* <App /> */}
+    <QueryClientProvider client={queryClient}>
     <CartProvider>
     <RouterProvider router={router} />
     </CartProvider>
+      </QueryClientProvider >
   </StrictMode>,
 )
+     
