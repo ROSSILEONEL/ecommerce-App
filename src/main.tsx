@@ -6,6 +6,8 @@ import './index.css'
 import { Home } from './pages/Home/Home.tsx'
 import { CartProvider } from './context/CartProvider.tsx'
 import { Checkout } from './pages/Checkout/Checkout.tsx'
+import { Login } from './pages/Login/Login.tsx'
+import {Dashboard} from './pages/Dashboard/Dashboard.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 
@@ -19,7 +21,15 @@ const router = createBrowserRouter([
       },
       {
         path:'/checkout',
-        element:<Checkout/>}
+        element:<Checkout/>},
+        {
+          path:'/login',
+          element:<Login/>
+        },
+        {
+          path:'/dashboard',
+          element:<Dashboard/>
+        }
     ]
   }
 ])

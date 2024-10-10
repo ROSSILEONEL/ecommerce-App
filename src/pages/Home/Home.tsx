@@ -3,7 +3,7 @@ import { Hero } from "../../components/ui/Hero/Hero.tsx"
 import { CardProduct } from "../../components/ui/CardProduct/CardProduct.tsx"
 import styles from "./Home.module.css"
 import { getProducts } from "../../service/products.ts"
-// import { Products } from "../../interfaces/products.ts"
+import { Products } from "../../interfaces/products.ts"
 import { Toaster } from "sonner"
 import { keepPreviousData, useQuery} from "@tanstack/react-query"
 import { useState } from "react"
@@ -37,18 +37,37 @@ const {data,error,isPending} = useQuery({
       <div className={styles.container}>
 {isPending && <div>Loading...</div>} 
 {error && <div>Error , something went wrong</div>}
-      {/* {data?.map((product) => (
-        <CardProduct key={product.id} product={product} />
-      ))} */}
-      
+
      
 
-      {data?.data.map((product) => (
+      {data?.data.map((product: Products) => (
         <CardProduct key={product.id} product={product} />
       ))}
       </div>
+<div>
 
-      <button onClick={() => setPage(page + 1)}>Load more</button>
+<div className={styles.paginationContainer}>
+
+<button 
+onClick={() => setPage(page - 1)}
+className={styles.paginationButton}
+disabled  ={page === 1}
+>Prev</button>
+
+
+<div className={styles.paginationActive}>
+<span>{page}</span>
+</div>
+
+      <button onClick={() => setPage(page + 1)}
+        className={styles.paginationButton}
+        >Next</button>
+
+
+</div>
+
+
     </div>
+</div>
   )
 }
