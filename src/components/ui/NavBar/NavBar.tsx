@@ -13,14 +13,28 @@ const {state : {cartItems}} = useCartContext()
 const navigate = useNavigate()
 const location = useLocation()
 
-useEffect(()=>{},[cartItems])
+const user = JSON.parse(localStorage.getItem('user') || 'null')
+useEffect(()=>{
+  if(user){
+    console.log(user);}
+  },[cartItems])
 
-const [showCartModal, setShowCartModal] = useState<boolean>(false)
+  const [showCartModal, setShowCartModal] = useState<boolean>(false)
+
+  const navigateToHome = () => {
+    navigate('/')
+  }
+  
 
 
 
-const navigateToHome = () => {
-  navigate('/')
+
+
+
+
+
+const navigateToLogin = ()=>{
+  navigate('/login')
 }
 const handledShowCartModal = ():void => {
   setShowCartModal(!showCartModal)
@@ -35,7 +49,11 @@ const handledShowCartModal = ():void => {
             <span>ITSUMI</span>
         </div>
         </div>
+
 {location.pathname !== '/checkout'  && ( <>
+    <div className={styles.loginButton} onClick={navigateToLogin}>
+{localStorage.getItem('user') ? user : 'Login'}
+    </div>
   <div className={styles.navbarCartContainer}>
         <p className={styles.navbarCart}>{cartItems.length===0 ? '' : cartItems.length}</p>
         <img src={cart} alt="carrito del ecommerce"   onClick={handledShowCartModal}/>

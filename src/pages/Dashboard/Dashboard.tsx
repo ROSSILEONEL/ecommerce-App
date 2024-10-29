@@ -5,16 +5,15 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { createProduct } from '../../service/products.ts'
 import { Products } from '../../interfaces/products'
-export const Dashboard = () => {
 
+
+
+export const Dashboard = () => {
 const mutation = useMutation( {
   mutationFn: (newProduct:Products)=>{
   return createProduct(newProduct)
  }
 })
-
-
-
 
 const [product, setProduct] = useState({
   amiiboSeries: '',
@@ -29,21 +28,37 @@ const [product, setProduct] = useState({
   price:0
 })
 
+const clearForm = () => {
+  setProduct({
+    amiiboSeries: '',
+    character: '',
+    gameSeries: '',
+    head: '',
+    image: '',
+    name: '',
+    release: '',
+    tail: '',
+    type: '',
+    price:0
+  })
+}
   const navigate= useNavigate()
 
   useEffect(()=>{
+    const userLogin = localStorage.getItem('user')
+    if(!userLogin){
+      toast.error('Please login first')
+      navigate('/login')
+    }
+      },[])
    
     
     
-      const userLogin = localStorage.getItem('user')
-      if(!userLogin){
-        navigate('/login')
-      }
-    },[])
 
     
     const handleLogout = () => {
       localStorage.removeItem('user')
+      toast.success('Logout successfully')
       navigate('/login')
     }
 
@@ -59,6 +74,13 @@ const [product, setProduct] = useState({
     const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
     mutation.mutate(product)
+    const result = mutation.data
+    if(result){
+      console.log('result', result)
+    }
+    clearForm()
+    toast.success('Product created successfully')
+    
     }
  
   return (
@@ -111,7 +133,7 @@ const [product, setProduct] = useState({
           id="head"
           name="head"
           value={product.head}
-          onChange={  handleChange}
+          onChange={handleChange}
           required
         />
       </div>
@@ -184,17 +206,7 @@ const [product, setProduct] = useState({
           required
         />
       </div>
-      {/* <div className={styles.formControlLogin}>
-        <label htmlFor="id">ID</label>
-        <input
-          type="text"
-          id="id"
-          name="id"
-          value={product.id}
-          onChange={handleChange}
-          required
-        />
-      </div> */}
+    
         <div>
           <button type="submit" >Add Product</button>
           </div>

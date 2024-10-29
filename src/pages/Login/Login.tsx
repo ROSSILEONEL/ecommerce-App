@@ -19,7 +19,11 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     toast.error('All fields are required')
     return
   }
-   
+
+  
+
+
+  
   setLoginData({
     email: '',
     password: ''
@@ -29,13 +33,19 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   navigate('/dashboard')
 }
 
+
+const user = JSON.parse(localStorage.getItem('user') || 'null')
 useEffect(() => {
   console.log(loginData)
+
+  if(user) {
+    return navigate('/dashboard')
+  }
+
 }, [loginData])
 
-
   return (
-
+<>
     <div className={styles.containerLogin}>
         <h1>Login</h1>
     <form onSubmit={handleSubmit}>
@@ -65,5 +75,6 @@ useEffect(() => {
     </form>
     
     </div>
+</>
   )
 }

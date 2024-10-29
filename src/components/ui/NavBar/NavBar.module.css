@@ -38,3 +38,10 @@
       right: 0px;
       top: -25px;
   }
+
+  .loginButton{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+ 
